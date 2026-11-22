@@ -1,0 +1,25 @@
+{
+  "purchase_window_days": 7,
+  "refund_window_days": 14,
+  "as_of": "2026-09-03T00:00:00+00:00",
+  "attribution": "一次支付归属观察窗内最近一次有效到访；更早跨店接触保留用于干扰分析；同时间多个有效到访保留归属不确定性，不能重复计算支付",
+  "paths": {
+    "single": {
+      "staff": 1
+    },
+    "pair": {
+      "staff": 2
+    }
+  },
+  "kit": {
+    "move_minutes": 45,
+    "clean_minutes": 15,
+    "single_concurrency": 4,
+    "pair_concurrency": 1
+  },
+  "design": {
+    "minimum_path_opportunity": 0.1,
+    "comparison": "主要比较按原分配，实际接触用于偏离解释及敏感性；比较目标为观察窗成熟后的净购买金额"
+  },
+  "fixed": "公告时段保留，冲突需明确等待协调，已开始时段不能追改分配机会"
+}

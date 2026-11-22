@@ -1,0 +1,300 @@
+{
+  "tables": {
+    "people": {
+      "description": "人员主档",
+      "columns": [
+        {
+          "name": "person",
+          "type": "str",
+          "nullable": false,
+          "description": "人员编号"
+        },
+        {
+          "name": "household",
+          "type": "str",
+          "nullable": false,
+          "description": "登记家庭编号"
+        },
+        {
+          "name": "segment",
+          "type": "str",
+          "nullable": false,
+          "description": "长期客群"
+        },
+        {
+          "name": "home_zone",
+          "type": "str",
+          "nullable": false,
+          "description": "常居时区"
+        }
+      ],
+      "primary_key": "person",
+      "references": {}
+    },
+    "blocks": {
+      "description": "原定轮换时段和真实分配机会",
+      "columns": [
+        {
+          "name": "block",
+          "type": "str",
+          "nullable": false,
+          "description": "时段"
+        },
+        {
+          "name": "store",
+          "type": "str",
+          "nullable": false,
+          "description": "门店"
+        },
+        {
+          "name": "start",
+          "type": "datetime",
+          "nullable": false,
+          "description": "开始"
+        },
+        {
+          "name": "end",
+          "type": "datetime",
+          "nullable": false,
+          "description": "结束"
+        },
+        {
+          "name": "assigned",
+          "type": "str",
+          "nullable": false,
+          "description": "分配路径"
+        },
+        {
+          "name": "prob_pair",
+          "type": "float",
+          "nullable": false,
+          "description": "该时段分到组合路径的机会"
+        },
+        {
+          "name": "announced",
+          "type": "int",
+          "nullable": false,
+          "description": "是否公告专场"
+        }
+      ],
+      "primary_key": "block",
+      "references": {}
+    },
+    "visits": {
+      "description": "跨门店顾客到访和实际接触",
+      "columns": [
+        {
+          "name": "visit",
+          "type": "str",
+          "nullable": false,
+          "description": "到访"
+        },
+        {
+          "name": "person",
+          "type": "str",
+          "nullable": false,
+          "description": "顾客"
+        },
+        {
+          "name": "block",
+          "type": "str",
+          "nullable": false,
+          "description": "原定时段"
+        },
+        {
+          "name": "actual_path",
+          "type": "str",
+          "nullable": false,
+          "description": "实际路径"
+        },
+        {
+          "name": "reason",
+          "type": "str",
+          "nullable": false,
+          "description": "偏离原因"
+        },
+        {
+          "name": "at",
+          "type": "datetime",
+          "nullable": false,
+          "description": "到访时间"
+        }
+      ],
+      "primary_key": "visit",
+      "references": {
+        "person": "people.person",
+        "block": "blocks.block"
+      }
+    },
+    "orders": {
+      "description": "离店后成交及撤单事实",
+      "columns": [
+        {
+          "name": "record",
+          "type": "str",
+          "nullable": false,
+          "description": "记录"
+        },
+        {
+          "name": "order",
+          "type": "str",
+          "nullable": false,
+          "description": "订单身份"
+        },
+        {
+          "name": "person",
+          "type": "str",
+          "nullable": false,
+          "description": "顾客"
+        },
+        {
+          "name": "at",
+          "type": "datetime",
+          "nullable": false,
+          "description": "发生时间"
+        },
+        {
+          "name": "kind",
+          "type": "str",
+          "nullable": false,
+          "description": "支付或退款"
+        },
+        {
+          "name": "cents",
+          "type": "int",
+          "nullable": false,
+          "description": "正数金额"
+        },
+        {
+          "name": "channel",
+          "type": "str",
+          "nullable": false,
+          "description": "成交渠道"
+        }
+      ],
+      "primary_key": "record",
+      "references": {
+        "person": "people.person"
+      }
+    },
+    "kits": {
+      "description": "演示套件及可使用门店",
+      "columns": [
+        {
+          "name": "kit",
+          "type": "str",
+          "nullable": false,
+          "description": "套件"
+        },
+        {
+          "name": "stores",
+          "type": "str",
+          "nullable": false,
+          "description": "可服务门店集合"
+        },
+        {
+          "name": "service",
+          "type": "str",
+          "nullable": false,
+          "description": "支持的路径"
+        },
+        {
+          "name": "available_start",
+          "type": "datetime",
+          "nullable": false,
+          "description": "可用开始"
+        },
+        {
+          "name": "available_end",
+          "type": "datetime",
+          "nullable": false,
+          "description": "可用结束"
+        }
+      ],
+      "primary_key": "kit",
+      "references": {}
+    },
+    "future_blocks": {
+      "description": "下一轮营业与专场约束",
+      "columns": [
+        {
+          "name": "block",
+          "type": "str",
+          "nullable": false,
+          "description": "候选时段"
+        },
+        {
+          "name": "store",
+          "type": "str",
+          "nullable": false,
+          "description": "门店"
+        },
+        {
+          "name": "start",
+          "type": "datetime",
+          "nullable": false,
+          "description": "开始"
+        },
+        {
+          "name": "end",
+          "type": "datetime",
+          "nullable": false,
+          "description": "结束"
+        },
+        {
+          "name": "staff",
+          "type": "int",
+          "nullable": false,
+          "description": "可用人员数"
+        },
+        {
+          "name": "fixed_path",
+          "type": "str",
+          "nullable": true,
+          "description": "已公告路径"
+        }
+      ],
+      "primary_key": "block",
+      "references": {}
+    },
+    "outages": {
+      "description": "设备故障事实",
+      "columns": [
+        {
+          "name": "outage",
+          "type": "str",
+          "nullable": false,
+          "description": "故障"
+        },
+        {
+          "name": "kit",
+          "type": "str",
+          "nullable": false,
+          "description": "套件"
+        },
+        {
+          "name": "start",
+          "type": "datetime",
+          "nullable": false,
+          "description": "故障开始"
+        },
+        {
+          "name": "end",
+          "type": "datetime",
+          "nullable": false,
+          "description": "故障结束"
+        },
+        {
+          "name": "reported",
+          "type": "datetime",
+          "nullable": false,
+          "description": "报告"
+        }
+      ],
+      "primary_key": "outage",
+      "references": {
+        "kit": "kits.kit"
+      }
+    }
+  }
+}
